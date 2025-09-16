@@ -5,6 +5,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.FragmentContainerView
+
 
 interface CoffeeListener {
     fun onSelected(id: Int)
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity(), CoffeeListener {
         if (savedInstanceState == null) {
             findViewById<FragmentContainerView>(R.id.fragment_container).let { containerLayout ->
                 val listFragment = ListFragment()
-                supportFragmentManager.beginTransaction()
+                 supportFragmentManager.beginTransaction()
                     .add(containerLayout.id, listFragment) // Tambahkan ListFragment pertama
                     .commit()
             }
