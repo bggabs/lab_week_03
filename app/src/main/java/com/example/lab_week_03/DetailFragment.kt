@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 
 class DetailFragment : Fragment() {
 
     private var coffeeId: Int = -1
     private var titleTextView: TextView? = null
     private var descTextView: TextView? = null
+    private var backButton: Button? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,6 +24,7 @@ class DetailFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
         titleTextView = view.findViewById(R.id.coffee_title)
         descTextView = view.findViewById(R.id.coffee_desc)
+        backButton = view.findViewById(R.id.btn_back)
         return view
     }
 
@@ -28,9 +32,14 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val coffeeId = arguments?.getInt(COFFEE_ID, 0) ?: 0
         setCoffeeData(coffeeId)
+
+        // Back button → balik ke ListFragment
+        backButton?.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
-    fun setCoffeeData(id: Int) {
+    private fun setCoffeeData(id: Int) {
         coffeeId = id
         when (coffeeId) {
             1 -> {
@@ -44,6 +53,14 @@ class DetailFragment : Fragment() {
             3 -> {
                 titleTextView?.text = getString(R.string.latte_title)
                 descTextView?.text = getString(R.string.latte_desc)
+            }
+            4 -> {
+                titleTextView?.text = getString(R.string.espresso_title)
+                descTextView?.text = getString(R.string.espresso_desc)
+            }
+            5 -> {
+                titleTextView?.text = getString(R.string.cappuccino_title)
+                descTextView?.text = getString(R.string.cappuccino_desc)
             }
             else -> {
                 titleTextView?.text = ""
