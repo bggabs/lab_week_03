@@ -1,33 +1,41 @@
 package com.example.lab_week_03
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.Navigation
 
-class ListFragment : Fragment() {
-
-    private var listener: CoffeeListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is CoffeeListener) {
-            listener = context
-        }
+class ListFragment : Fragment(){
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_list, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_list, container, false)
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val coffeeList = listOf<View>(
+            view.findViewById(R.id.affogato),
+            view.findViewById(R.id.americano),
+            view.findViewById(R.id.latte)
+        )
+        coffeeList.forEachIndexed { index, coffee ->
+            val fragmentBundle = Bundle()
+            fragmentBundle.putInt(COFFEE_ID, index + 1) // 1, 2, 3
+            coffee.setOnClickListener {
+                it.findNavController().navigate(R.id.coffee_id_action, fragmentBundle)
+            }
+        }
 
-        view.findViewById<TextView>(R.id.affogato).setOnClickListener { listener?.onSelected(1) }
-        view.findViewById<TextView>(R.id.americano).setOnClickListener { listener?.onSelected(2) }
-        view.findViewById<TextView>(R.id.latte).setOnClickListener { listener?.onSelected(3) }
-
-        return view
+    }
+    companion object {
+        const val COFFEE_ID = "COFFEE_ID"
     }
 }
