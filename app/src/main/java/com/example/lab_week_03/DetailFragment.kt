@@ -24,6 +24,12 @@ class DetailFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val coffeeId = arguments?.getInt(COFFEE_ID, 0) ?: 0
+        setCoffeeData(coffeeId)
+    }
+
     fun setCoffeeData(id: Int) {
         coffeeId = id
         when (coffeeId) {
@@ -44,5 +50,16 @@ class DetailFragment : Fragment() {
                 descTextView?.text = ""
             }
         }
+    }
+
+    companion object {
+        private const val COFFEE_ID = "COFFEE_ID"
+
+        fun newInstance(coffeeId: Int) =
+            DetailFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(COFFEE_ID, coffeeId)
+                }
+            }
     }
 }
